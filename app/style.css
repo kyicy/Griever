@@ -1,0 +1,184 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,300");
+html,
+body {
+    height: 100%;
+    width: 100%;
+    font-family: Roboto, sans-serif;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.container>[class$=Container] {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0 2px;
+}
+
+.playerContainer {
+    justify-content: flex-end;
+}
+
+.indexContainer {
+    justify-content: flex-start;
+}
+
+#player,
+#index {
+    width: 300px;
+    height: 450px;
+    box-shadow: 0 0 5px #bbb;
+}
+
+.indexContainer {
+    display: none;
+}
+
+#player .cover {
+    height: 300px;
+    width: 300px;
+    background-size: cover;
+    box-sizing: border-box;
+}
+
+#player .cover .lrc {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#player .cover .line {
+    cursor: default;
+    display: flex;
+    margin-bottom: 8px;
+    width: 95%;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 3px;
+    padding: 8px 10px;
+    font-size: 13px;
+    line-height: 16px;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#player .progressContainer {
+    cursor: pointer;
+    position: relative;
+}
+
+#player .buffer {
+    height: 7px;
+    width: 0%;
+    background-color: grey;
+}
+
+#player .progress {
+    height: 7px;
+    position: absolute;
+    top: 0;
+    width: 0%;
+    background-color: red;
+}
+
+#player .detail {
+    padding: 12px 20px;
+}
+
+#player .detail .title {
+    text-align: center;
+    font-size: 15px;
+}
+
+#player .controls {
+    display: flex;
+    width: 100%;
+    margin-top: 3px;
+    justify-content: center;
+    align-items: center;
+}
+
+i.icon {
+    cursor: pointer;
+}
+
+#player .controls .icon {
+    font-size: 36px;
+}
+
+#player .controls .icon:hover {
+    color: #f33336;
+}
+
+#player .controls .icon.play,
+#player .controls .icon.pause {
+    color: #f44336;
+    font-size: 55px;
+    margin-left: 5px;
+    margin-right: 5px
+}
+
+#player .controls .icon.pause,
+#player .controls .icon.repeat-one,
+#player .controls .icon.shuffle {
+    display: none;
+}
+
+#player input.volume {
+    display: none;
+    width: 50px;
+}
+
+#index ul {
+    list-style: none;
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#index input {
+    width: 100%;
+    margin-bottom: 1px;
+    padding-left: 10px;
+    height: 30px;
+    border-radius: 4px;
+    border: 2px solid grey;
+}
+
+#index .cover {
+    width: 30px;
+    height: 30px;
+}
+
+#index span {
+    margin-right: 30px;
+    margin-left: 10px;
+}
+
+#index li.songListItem {
+    display: flex;
+    position: relative;
+    border-top: 1px solid #bbb;
+    padding-top: 5px;
+}
+
+#index li.songListItem i.play {
+    right: 0;
+    position: absolute;
+}

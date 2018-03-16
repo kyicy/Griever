@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Griever</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body>
+    <div class="container">
+        <div class="playerContainer">
+            <div id="player">
+                <div class="cover">
+                    <div class="lrc">
+                        <div class="line"></div>
+                    </div>
+                </div>
+                <div class="progressContainer">
+                    <div class="buffer"></div>
+                    <div class="progress"></div>
+                </div>
+                <div class="detail">
+                    <div class="title"></div>
+                </div>
+                <div class="controls">
+                    <!-- <i class="icon repeat material-icons">repeat</i>
+                    <i class="icon repeat-one material-icons">repeat_one</i>
+                    <i class="icon shuffle material-icons">shuffle</i>
+                    <i class="icon prev material-icons">skip_previous</i> -->
+                    <i class="icon play material-icons">play_circle_filled</i>
+                    <i class="icon pause material-icons">pause_circle_filled</i>
+                    <!-- <i class="icon next material-icons">skip_next</i> -->
+                    <i class="icon volume material-icons">volume_up</i>
+                    <input type="range" class="volume" min="0" max="100" step="1" value="50" />
+
+                </div>
+            </div>
+        </div>
+        <div class="indexContainer">
+            <div id="index">
+                <input type="text" id="neteasy-search" placeholder="搜索音乐">
+                <ul id="neteasy-search-result">
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    require('./render/')
+</script>
+
+</html>

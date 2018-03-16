@@ -1,0 +1,31 @@
+{
+  "name": "griever",
+  "version": "0.0.1",
+  "description": "I prefer not to",
+  "main": "app/index.js",
+  "scripts": {
+    "start": "electron .",
+    "postinstall": "npm  run electron-rebuild",
+    "dist": "electron-packager . 'Griever' --out='dist' --Icon='icon.ico'",
+    "deb64": "electron-installer-debian --arch amd64 --config config.json",
+    "test": "npm test",
+    "electron-rebuild": "electron-rebuild"
+  },
+  "author": "kyicy",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^1.8.3",
+    "electron-installer-debian": "^0.8.1",
+    "electron-packager": "^11.1.0",
+    "electron-rebuild": "^1.7.3"
+  },
+  "dependencies": {
+    "datauri": "^1.1.0",
+    "jquery-slim": "^3.0.0",
+    "lodash": "^4.17.5",
+    "request": "^2.85.0",
+    "sequelize": "^4.37.0",
+    "sqlite3": "^3.1.13",
+    "umzug": "^2.1.0"
+  }
+}

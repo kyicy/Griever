@@ -1,0 +1,12 @@
+{
+    "dest": "dist/installers/",
+    "src": "dist/Griever-linux-x64",
+    "icon": "Icon.png",
+    "categories": [
+        "AudioVideo",
+        "Audio"
+    ],
+    "lintianOverrides": [
+        "changelog-file-missing-in-native-package"
+    ]
+}
