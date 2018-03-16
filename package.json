@@ -6,9 +6,10 @@
   "scripts": {
     "start": "electron .",
     "postinstall": "npm  run electron-rebuild",
-    "dist": "electron-packager . 'Griever' --out='dist' --Icon='icon.ico'",
+    "dist": "electron-packager . 'Griever' --out='dist' --Icon='icon.png'",
     "deb64": "electron-installer-debian --arch amd64 --config config.json",
     "test": "npm test",
+    "dist-mac": "electron-packager . 'Griever' --platform='darwin'  --out='dist' -- --Icon='icon.png'",
     "electron-rebuild": "electron-rebuild"
   },
   "author": "kyicy",
