@@ -2,10 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const electron = require('electron');
 const $ = require('jquery-slim');
-const neteasy = require('./neteasy');
+const netease = require('./netease');
 const Player = require('./player');
-const $neteasySearch = $('#neteasy-search');
-const $neteasySearchResult = $('#neteasy-search-result');
+const $neteaseSearch = $('#netease-search');
+const $neteaseSearchResult = $('#netease-search-result');
 const request = require('request');
 const config = require('../config');
 const Datauri = require('datauri').promise;
@@ -17,26 +17,26 @@ const models = require('./model');
 let typingTimer;
 var doneTypingInterval = 1000;
 
-$neteasySearch.on("keyup", function () {
+$neteaseSearch.on("keyup", function () {
     clearTimeout(typingTimer);
     typingTimer = setTimeout(doneTyping.bind(this), doneTypingInterval);
 })
 
-$neteasySearch.on('keydown', () => clearTimeout(typingTimer));
+$neteaseSearch.on('keydown', () => clearTimeout(typingTimer));
 
 let songs = [];
 
 async function doneTyping() {
     try {
-        songs = await neteasy.search(this.value);
-        $neteasySearchResult.empty();
+        songs = await netease.search(this.value);
+        $neteaseSearchResult.empty();
         songs.forEach(async song => {
             let element = $(`<li class="songListItem">
                 <img src=${song.album.picUrl} class="cover"/>
                 <span>${song.name} by ${song.artist.name}</span>
-                <i class="icon play material-icons" data-neteasyid="${song.neteasyId}">play_circle_outline</i>            
+                <i class="icon play material-icons" data-neteaseid="${song.neteaseId}">play_circle_outline</i>            
             </li>`);
-            $neteasySearchResult.append(element);
+            $neteaseSearchResult.append(element);
         })
 
     } catch (error) {
@@ -45,14 +45,14 @@ async function doneTyping() {
 }
 
 $('#index ul').on('click', 'i.play', async function () {
-    let neteasyId = parseInt($(this).data('neteasyid'));
-    let song = songs.find(song => song.neteasyId === neteasyId);
+    let neteaseId = parseInt($(this).data('neteaseid'));
+    let song = songs.find(song => song.neteaseId === neteaseId);
 
     // check in database
 
     let _song = await models.Song.findOne({
         where: {
-            neteasyId
+            neteaseId
         },
         include: [models.Artist, models.Album]
     })
@@ -70,26 +70,26 @@ $('#index ul').on('click', 'i.play', async function () {
 
     let _artist = await models.Artist.findOne({
         where: {
-            neteasyId: song.artist.id
+            neteaseId: song.artist.id
         }
     })
 
     if (!_artist) {
         _artist = await models.Artist.create({
-            neteasyId: song.artist.id,
+            neteaseId: song.artist.id,
             name: song.artist.name
         })
     }
 
     let _album = await models.Album.findOne({
         where: {
-            neteasyId: song.album.id,
+            neteaseId: song.album.id,
         }
     })
 
     if (!_album) {
         _album = await models.Album.create({
-            neteasyId: song.album.id,
+            neteaseId: song.album.id,
             cover: song.album.picUrl,
             title: song.album.name,
             artistId: _artist.id
@@ -109,7 +109,7 @@ $('#index ul').on('click', 'i.play', async function () {
 
     if (!_song) {
         _song = await models.Song.build({
-            neteasyId: song.neteasyId,
+            neteaseId: song.neteaseId,
             albumId: _album.id,
             artistId: _artist.id,
             title: song.name

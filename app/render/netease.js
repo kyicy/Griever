@@ -1,8 +1,8 @@
 const request = require("request");
 const _ = require("lodash");
 
-function Song(neteasyId, name, artist, album) {
-    this.neteasyId = neteasyId;
+function Song(neteaseId, name, artist, album) {
+    this.neteaseId = neteaseId;
     this.name = name;
     this.artist = artist;
     this.album = album;
@@ -10,7 +10,7 @@ function Song(neteasyId, name, artist, album) {
     this.lrc = false;
 
     this.getTrack = async function () {
-        let url = encodeURI(`https://api.imjad.cn/cloudmusic/?type=song&id=${this.neteasyId}`);
+        let url = encodeURI(`https://api.imjad.cn/cloudmusic/?type=song&id=${this.neteaseId}`);
         return new Promise((resolve, reject) => {
             request(url, (error, res, body) => {
                 if (error) {
@@ -25,7 +25,7 @@ function Song(neteasyId, name, artist, album) {
     }
 
     this.getLrc = async function () {
-        let url = encodeURI(`https://music.163.com/api/song/media?id=${this.neteasyId}`);
+        let url = encodeURI(`https://music.163.com/api/song/media?id=${this.neteaseId}`);
         return new Promise((resolve, reject) => {
             request(url, (error, res, body) => {
                 if (error) {

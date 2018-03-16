@@ -10,7 +10,7 @@ module.exports = (sequlize, DataTypes) => {
         title: {
             type: DataTypes.STRING,
         },
-        neteasyId: {
+        neteaseId: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
@@ -38,7 +38,7 @@ module.exports = (sequlize, DataTypes) => {
     }, {
         indexes: [{
             unique: true,
-            fields: ['neteasyId']
+            fields: ['neteaseId']
         }]
     });
 

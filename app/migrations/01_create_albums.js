@@ -7,7 +7,7 @@ module.exports = {
                 primaryKey: true,
                 autoIncrement: true
             },
-            neteasyId: {
+            neteaseId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
@@ -37,7 +37,7 @@ module.exports = {
 
         });
 
-        return await query.addIndex('albums', ['neteasyId'], {
+        return await query.addIndex('albums', ['neteaseId'], {
             indicesType: 'UNIQUE'
         })
 

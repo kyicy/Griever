@@ -6,7 +6,7 @@ module.exports = (sequlize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        neteasyId: {
+        neteaseId: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
@@ -17,7 +17,7 @@ module.exports = (sequlize, DataTypes) => {
     }, {
         indexes: [{
             unique: true,
-            fields: ['neteasyId']
+            fields: ['neteaseId']
         }]
     })
 
