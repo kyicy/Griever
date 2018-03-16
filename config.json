@@ -5,8 +5,5 @@
     "categories": [
         "AudioVideo",
         "Audio"
-    ],
-    "lintianOverrides": [
-        "changelog-file-missing-in-native-package"
     ]
 }
