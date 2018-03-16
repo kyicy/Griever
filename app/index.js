@@ -23,7 +23,7 @@ app.on('ready', () => {
     });
 
     mainWindow.once('ready-to-show', () => {
-        // mainWindow.setMenu(null);
+        mainWindow.setMenu(null);
         mainWindow.show();
     });
 

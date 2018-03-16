@@ -94,7 +94,7 @@ $('#index ul').on('click', 'i.play', async function () {
             title: song.album.name,
             artistId: _artist.id
         })
-        let coverPath = path.resolve(config.coverPath, `${song.name}-${_artist.name}${path.extname(_album.cover)}`);
+        let coverPath = path.resolve(config.coverPath, `${_album.id}${path.extname(_album.cover)}`);
         let coverWriter = fs.createWriteStream(coverPath);
 
         coverWriter.on('finish', async () => {
