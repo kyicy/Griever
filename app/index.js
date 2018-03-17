@@ -56,7 +56,7 @@ app.on('ready', () => {
     });
 
     mainWindow.once('ready-to-show', async () => {
-        // mainWindow.setMenu(null);
+        mainWindow.setMenu(null);
         mainWindow.show();
         windows.set('mainWindow', mainWindow);
 
@@ -93,6 +93,7 @@ function createSearchWindow() {
         });
 
         searchWindow.once('ready-to-show', () => {
+            searchWindow.setMenu(null);
             windows.set('searchWindow', searchWindow);
             resolve(searchWindow);
         });
@@ -129,6 +130,7 @@ function createPlaylistWindow() {
         });
 
         playlistWindow.once('ready-to-show', () => {
+            playlistWindow.setMenu(null);
             windows.set('playlistWindow', playlistWindow);
             resolve(playlistWindow);
         });

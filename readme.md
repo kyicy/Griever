@@ -20,16 +20,16 @@ Build upon:
 - [x] Cache music and cover
 - [x] Play Music after Search
 - [x] Lyrics
-
+- [x] Playlist
 
 ### Next Version: 0.0.2
-- [ ] Playlist
 - [ ] Manage Cached files
+- [ ] better Error handing
 - [ ] better UI
 
 
 ### ScreenShot
-![ScreenShot](images/Screenshot.png)
+![ScreenShot](images/version-0.0.2.png)
 
 ### License
 Copyright 2018 kyicy
