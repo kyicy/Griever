@@ -15,14 +15,14 @@ Build upon:
 - There is no warranty about the quality and usability of the source code due to the potential changes in the NetEase Cloud Music client program or its official website.
 - Last but not least, this is only a hobby project. Do not be too serious and just enjoy the music.  
 
-### Current Version: 0.0.1
+### Current Version:
 - [x] Search Music
 - [x] Cache music and cover
 - [x] Play Music after Search
 - [x] Lyrics
 - [x] Playlist
 
-### Next Version: 0.0.2
+### Next Version: 
 - [ ] Manage Cached files
 - [ ] better Error handing
 - [ ] better UI

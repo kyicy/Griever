@@ -10,6 +10,7 @@
     "deb64": "electron-installer-debian --arch amd64 --config config.json",
     "test": "npm test",
     "dist-mac": "electron-packager . 'Griever' --platform='darwin'  --out='dist' --overwrite",
+    "dist-win": "electron-packager . 'Griever' --platform='win32' --arch='x64'  --out='dist' --overwrite",
     "electron-rebuild": "electron-rebuild"
   },
   "author": "kyicy",

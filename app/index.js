@@ -56,7 +56,7 @@ app.on('ready', () => {
     });
 
     mainWindow.once('ready-to-show', async () => {
-        mainWindow.setMenu(null);
+        // mainWindow.setMenu(null);
         mainWindow.show();
         windows.set('mainWindow', mainWindow);
 
@@ -82,7 +82,7 @@ async function toggleSearchWindow() {
 
 function createSearchWindow() {
     return new Promise(resolve => {
-        let pos = windows.get('mainWindow').getPosition();
+        // let pos = windows.get('mainWindow').getPosition();
 
         let searchWindow = new BrowserWindow({
             show: false,
@@ -130,7 +130,7 @@ function createPlaylistWindow() {
         });
 
         playlistWindow.once('ready-to-show', () => {
-            playlistWindow.setMenu(null);
+            // playlistWindow.setMenu(null);
             windows.set('playlistWindow', playlistWindow);
             resolve(playlistWindow);
         });
