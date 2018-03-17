@@ -27,6 +27,7 @@
     "request": "^2.85.0",
     "sequelize": "^4.37.0",
     "sqlite3": "^3.1.13",
-    "umzug": "^2.1.0"
+    "umzug": "^2.1.0",
+    "vanilla-lazyload": "^10.4.2"
   }
 }

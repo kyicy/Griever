@@ -27,30 +27,29 @@
                     <div class="title"></div>
                 </div>
                 <div class="controls">
-                    <!-- <i class="icon repeat material-icons">repeat</i>
+                    <i class="icon repeat material-icons">repeat</i>
                     <i class="icon repeat-one material-icons">repeat_one</i>
                     <i class="icon shuffle material-icons">shuffle</i>
-                    <i class="icon prev material-icons">skip_previous</i> -->
+                    <i class="icon prev material-icons">skip_previous</i>
                     <i class="icon play material-icons">play_circle_filled</i>
                     <i class="icon pause material-icons">pause_circle_filled</i>
-                    <!-- <i class="icon next material-icons">skip_next</i> -->
+                    <i class="icon next material-icons">skip_next</i>
                     <i class="icon volume material-icons">volume_up</i>
                     <input type="range" class="volume" min="0" max="100" step="1" value="50" />
 
                 </div>
-            </div>
-        </div>
-        <div class="indexContainer">
-            <div id="index">
-                <input type="text" id="netease-search" placeholder="搜索音乐">
-                <ul id="netease-search-result">
-                </ul>
+
+                <div class="operations">
+                    <i class="icon search material-icons">search</i>
+                    <i class="icon playlist material-icons">playlist_play</i>
+                </div>
+
             </div>
         </div>
     </div>
 </body>
 <script>
-    require('./render/')
+    require('./render/main')
 </script>
 
 </html>

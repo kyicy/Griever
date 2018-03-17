@@ -57,11 +57,7 @@ async function search(str) {
                 return reject(error)
             }
 
-            let firstFive = _.takeWhile(songs, (song, index) => {
-                return index < 10
-            })
-
-            let results = firstFive.map(song =>
+            let results = songs.map(song =>
                 new Song(song.id, song.name, song.ar[0], song.al)
             )
 

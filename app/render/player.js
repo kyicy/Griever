@@ -1,4 +1,14 @@
+const {
+    ipcMain
+} = require('electron');
+
 const $ = require('jquery-slim');
+const _ = require('lodash');
+
+const {
+    ipcRenderer
+} = require('electron');
+
 
 function Song() {
     this.audio = document.createElement('audio');
@@ -40,6 +50,9 @@ function Song() {
 function Player() {
     this.timer = new Timer();
     this.song = new Song();
+    this.tracks = [];
+    this.mode = "repeat";
+    this.currentPlaying = 0;
     this.setUpEventListener();
 }
 
@@ -55,6 +68,9 @@ Player.prototype.setUpEventListener = function () {
         $("#player .progress").css("width", `${progress}%`);
     });
 
+    this.song.audio.addEventListener("ended", () => {
+        this.playNext();
+    });
 
     this.song.audio.addEventListener("playing", () => {
         $("#player .icon.play").hide();
@@ -77,9 +93,39 @@ Player.prototype.setUpEventListener = function () {
         }
     })
 
+    $("#player .icon.repeat").click(function () {
+        that.mode = "repeat-one";
+        $(this).hide();
+        $("#player .icon.repeat-one").show();
+    })
+
+    $("#player .icon.repeat-one").click(function () {
+        that.mode = "shuffle";
+        $(this).hide();
+        $("#player .icon.shuffle").show();
+    })
+
+    $("#player .icon.shuffle").click(function () {
+        that.mode = "repeat";
+        $(this).hide();
+        $("#player .icon.repeat").show();
+    })
+
+
+    $("#player .icon.prev").on("click", () => {
+        this.playPrev();
+    });
+
+    $("#player .icon.next").on("click", () => {
+        this.playNext();
+    });
+
     $("#player .icon.play").on("click", () => {
-        this.song.play();
-        this.timer.start(this.syncLrc.bind(this));
+        if (this.tracks.length > 0) {
+            this.song.play();
+            this.timer.start(this.syncLrc.bind(this));
+            ipcRenderer.send("currentPlaying", this.tracks[this.currentPlaying].id);
+        }
     });
 
     $("#player .icon.pause").on("click", () => {
@@ -124,11 +170,13 @@ Player.prototype.setUpEventListener = function () {
     })(this);
 }
 
-Player.prototype.play = function (songData) {
+Player.prototype.play = function (index) {
+    this.currentPlaying = ((index >> 0) + this.tracks.length) % this.tracks.length;
     this.song.pause();
     this.timer.stop();
-    this.setSong(songData, (hasLrc) => {
+    this.setSong(this.tracks[this.currentPlaying], (hasLrc) => {
         this.song.play();
+        ipcRenderer.send('currentPlaying', this.tracks[this.currentPlaying].id);
         if (hasLrc) {
             this.timer.start(this.syncLrc.bind(this));
         }
@@ -136,13 +184,88 @@ Player.prototype.play = function (songData) {
 
 }
 
+Player.prototype.playBySongId = function (songId) {
+    console.log(songId, this.tracks);
+    let index = _.findIndex(this.tracks, track => track.id === songId);
+    if (index !== -1) {
+        this.play(index);
+    }
+}
+
+Player.prototype.addTracks = function (songArray) {
+    let preLength = this.tracks.length;
+    let current;
+
+    if (preLength > 0) {
+        current = this.tracks[this.currentPlaying];
+    }
+
+    this.tracks = _.uniqBy(this.tracks.concat(songArray), track => track.id);
+    if (preLength == 0 && this.tracks.length > 0) {
+        this.setSong(this.tracks[0]);
+    }
+
+    if (preLength > 0) {
+        let newIndex = _.findIndex(this.tracks, track => track.id == current.id);
+        this.currentPlaying = newIndex;
+    }
+}
+
+Player.prototype.setTracks = function (songArray) {
+    let preLength = this.tracks.length;
+    let prePlaying = this.currentPlaying;
+    let current;
+
+    if (preLength > 0) {
+        current = this.tracks[prePlaying];
+    }
+
+    this.tracks = songArray;
+    if (preLength == 0 && this.tracks.length > 0) {
+        this.setSong(this.tracks[0]);
+    }
+
+    if (preLength > 0) {
+        let newIndex = _.findIndex(this.tracks, track => track.id == current.id);
+        if (newIndex == -1) {
+            if (this.tracks.length > 0) {
+                this.play(prePlaying);
+            }
+        } else {
+            this.currentPlaying = newIndex;
+        }
+    }
+    ipcRenderer.send('currentPlaying', this.tracks[this.currentPlaying].id);
+
+}
+
+function whichToPlay(current, mode, direction, total) {
+    var index;
+    if (mode == "repeat") {
+        index = direction == "next" ? current + 1 : current - 1
+    } else if (mode == "repeat-one") {
+        index = current;
+    } else {
+        index = Math.round(Math.random() * total);
+    }
+    return index;
+}
+
+
+Player.prototype.playNext = function () {
+    this.play(whichToPlay(this.currentPlaying, this.mode, "next", this.tracks.length));
+}
+
+Player.prototype.playPrev = function () {
+    this.play(whichToPlay(this.currentPlaying, this.mode, "previous", this.tracks.length));
+}
 
 Player.prototype.setSong = function (songData, next) {
     this.song.lrc = null;
     this.song.setTrack(songData.track);
     this.song.canPlayThrough = false;
     // update cover 
-    $("#player .cover").css("background-image", `url(${songData.cover})`);
+    $("#player .cover").css("background-image", `url("${songData.cover}")`);
 
     // update detail
     $("#player .detail .title").text(`${songData.name} - ${songData.artist}`);

@@ -51,6 +51,9 @@ module.exports = (sequlize, DataTypes) => {
     Song.associate = function (models) {
         Song.belongsTo(models.Album);
         Song.belongsTo(models.Artist);
+        Song.belongsToMany(models.Playlist, {
+            through: models.PlaylistSong
+        });
     }
 
     return Song;
