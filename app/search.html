@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Search - Griever</title>
+    <link rel="stylesheet" href="search.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body>
+    <div class="indexContainer">
+        <div id="index">
+            <input type="text" id="netease-search" placeholder="搜索音乐">
+            <ul id="netease-search-result">
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    window.$ = window.jQuery = require('jquery-slim');
+
+    require('./render/search');
+</script>
+
+</html>

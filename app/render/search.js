@@ -2,17 +2,21 @@ const fs = require('fs');
 const path = require('path');
 const electron = require('electron');
 const $ = require('jquery-slim');
+const LazyLoad = require('vanilla-lazyload');
+const myLazyLoad = new LazyLoad();
+
 const netease = require('./netease');
-const Player = require('./player');
 const $neteaseSearch = $('#netease-search');
 const $neteaseSearchResult = $('#netease-search-result');
-const request = require('request');
 const config = require('../config');
 const Datauri = require('datauri').promise;
-
-const player = new Player()
+const request = require('request');
 
 const models = require('./model');
+const {
+    remote,
+    ipcRenderer
+} = electron;
 
 let typingTimer;
 var doneTypingInterval = 1000;
@@ -32,11 +36,12 @@ async function doneTyping() {
         $neteaseSearchResult.empty();
         songs.forEach(async song => {
             let element = $(`<li class="songListItem">
-                <img src=${song.album.picUrl} class="cover"/>
+                <img data-src=${song.album.picUrl} class="cover"/>
                 <span>${song.name} by ${song.artist.name}</span>
                 <i class="icon play material-icons" data-neteaseid="${song.neteaseId}">play_circle_outline</i>            
             </li>`);
             $neteaseSearchResult.append(element);
+            myLazyLoad.update();
         })
 
     } catch (error) {
@@ -44,28 +49,19 @@ async function doneTyping() {
     }
 }
 
+
+
 $('#index ul').on('click', 'i.play', async function () {
     let neteaseId = parseInt($(this).data('neteaseid'));
     let song = songs.find(song => song.neteaseId === neteaseId);
 
-    // check in database
-
     let _song = await models.Song.findOne({
         where: {
             neteaseId
-        },
-        include: [models.Artist, models.Album]
+        }
     })
     if (_song) {
-        let songContent = await Datauri(_song.track);
-        let coverContent = await Datauri(_song.album.cover);
-        return player.play({
-            cover: coverContent,
-            name: _song.title,
-            lrc: _song.lrc,
-            artist: _song.artist.name,
-            track: songContent
-        })
+        ipcRenderer.send('addToPlaylist', _song.id);
     }
 
     let _artist = await models.Artist.findOne({
@@ -128,24 +124,13 @@ $('#index ul').on('click', 'i.play', async function () {
         writer.on('finish', async () => {
             _song.track = filePath;
             await _song.save();
-            songContent = await Datauri(_song.track);
-            songCover = await Datauri(_album.cover);
-            player.play({
-                cover: songCover,
-                name: _song.title,
-                lrc: _song.lrc,
-                artist: _artist.name,
-                track: songContent
-            });
-
+            ipcRenderer.send('addToPlaylist', _song.id);
         })
 
         request(track).pipe(writer);
-
-
+        new Notification(_song.title, {
+            body: `Start caching`
+        })
     }
 
-
-    // save to database
-
-})
+});

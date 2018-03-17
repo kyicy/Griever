@@ -27,22 +27,13 @@ body {
 }
 
 .playerContainer {
-    justify-content: flex-end;
+    justify-content: center;
 }
 
-.indexContainer {
-    justify-content: flex-start;
-}
-
-#player,
-#index {
+#player {
     width: 300px;
-    height: 450px;
+    height: 470px;
     box-shadow: 0 0 5px #bbb;
-}
-
-.indexContainer {
-    display: none;
 }
 
 #player .cover {
@@ -117,11 +108,11 @@ i.icon {
     cursor: pointer;
 }
 
-#player .controls .icon {
+#player .icon {
     font-size: 36px;
 }
 
-#player .controls .icon:hover {
+#player .icon:hover {
     color: #f33336;
 }
 
@@ -144,41 +135,10 @@ i.icon {
     width: 50px;
 }
 
-#index ul {
-    list-style: none;
-    height: 420px;
+#player .operations {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-#index input {
     width: 100%;
-    margin-bottom: 1px;
-    padding-left: 10px;
-    height: 30px;
-    border-radius: 4px;
-    border: 2px solid grey;
-}
-
-#index .cover {
-    width: 30px;
-    height: 30px;
-}
-
-#index span {
-    margin-right: 30px;
-    margin-left: 10px;
-}
-
-#index li.songListItem {
-    display: flex;
-    position: relative;
-    border-top: 1px solid #bbb;
-    padding-top: 5px;
-}
-
-#index li.songListItem i.play {
-    right: 0;
-    position: absolute;
+    margin-top: 3px;
+    justify-content: flex-end;
+    align-items: center;
 }
