@@ -1,14 +1,7 @@
-const {
-    ipcMain
-} = require('electron');
-
 const $ = require('jquery-slim');
 const _ = require('lodash');
 
-const {
-    ipcRenderer
-} = require('electron');
-
+const ipcRenderer = require('electron').ipcRenderer;
 
 function Song() {
     this.audio = document.createElement('audio');
@@ -283,11 +276,8 @@ Player.prototype.setSong = function (songData, next) {
 }
 
 Player.prototype.syncLrc = function () {
-
     var lines = this.song.lrc;
-
     var anchor = Math.round(this.song.audio.currentTime * 10) * 100;
-
     while (true) {
         if (anchor < 0) {
             break;
@@ -298,7 +288,6 @@ Player.prototype.syncLrc = function () {
             anchor -= 100;
         }
     }
-
 }
 
 function Timer() {

@@ -14,38 +14,39 @@ migrate.cmdMigrate().then(results => {
 
 let windows = new Map();
 
-ipcMain.on('toggleSearchWindow', toggleSearchWindow);
-ipcMain.on('togglePlaylistWindow', togglePlaylistWindow);
+ipcMain.on('toggleWindow', (evt, target) => {
+    toggleWindow(target);
+});
+
 ipcMain.on('setTracks', (evt, tracks) => {
-    let mainWindow = windows.get('mainWindow');
+    let mainWindow = windows.get('main');
     mainWindow.webContents.send('setTracks', tracks);
 })
 
 
 ipcMain.on('playFromPlaylist', (evt, songId) => {
-    let mainWindow = windows.get('mainWindow');
+    let mainWindow = windows.get('main');
     mainWindow.webContents.send('playFromPlaylist', songId);
 })
 
 ipcMain.on('currentPlaying', (evt, songId) => {
-    let playlistWindow = windows.get('playlistWindow');
+    let playlistWindow = windows.get('playlist');
     if (playlistWindow) {
         playlistWindow.webContents.send('currentPlaying', songId);
     }
 })
 
 ipcMain.on('addToPlaylist', (evt, songId) => {
-    let mainWindow = windows.get('mainWindow');
+    let mainWindow = windows.get('main');
     mainWindow.webContents.send('addToPlaylist', songId);
 })
 
 ipcMain.on('updatePlaylist', () => {
-    let playlistWindow = windows.get('playlistWindow');
+    let playlistWindow = windows.get('playlist');
     if (playlistWindow) {
         playlistWindow.webContents.send('updatePlaylist');
     }
 })
-
 
 app.on('ready', () => {
     let mainWindow = new BrowserWindow({
@@ -58,33 +59,33 @@ app.on('ready', () => {
     mainWindow.once('ready-to-show', async () => {
         // mainWindow.setMenu(null);
         mainWindow.show();
-        windows.set('mainWindow', mainWindow);
+        windows.set('main', mainWindow);
 
     });
 
     mainWindow.on('closed', () => {
-        windows.delete('mainWindow')
+        process.exit(0);
     });
 
-    mainWindow.loadURL(`file://${__dirname}/index.html`);
+    mainWindow.loadURL(`file://${__dirname}/views/index.html`);
 
 });
 
-async function toggleSearchWindow() {
-    if (windows.has('searchWindow')) {
-        let searchWindow = windows.get('searchWindow');
-        searchWindow.close();
+async function toggleWindow(name) {
+    if (windows.has(name)) {
+        let window = windows.get(name);
+        window.close();
     } else {
-        let searchWindow = await createSearchWindow();
-        searchWindow.show();
+        let window = await createWindow(name);
+        window.show();
     }
 }
 
-function createSearchWindow() {
+function createWindow(name) {
     return new Promise(resolve => {
-        // let pos = windows.get('mainWindow').getPosition();
+        let pos = windows.get('main').getPosition();
 
-        let searchWindow = new BrowserWindow({
+        let window = new BrowserWindow({
             show: false,
             width: 400,
             x: pos[0] + 340,
@@ -92,53 +93,16 @@ function createSearchWindow() {
             resizable: false
         });
 
-        searchWindow.once('ready-to-show', () => {
-            searchWindow.setMenu(null);
-            windows.set('searchWindow', searchWindow);
-            resolve(searchWindow);
+        window.once('ready-to-show', () => {
+            // window.setMenu(null);
+            windows.set(name, window);
+            resolve(window);
         });
 
-        searchWindow.on('closed', () => {
-            windows.delete('searchWindow');
+        window.on('closed', () => {
+            windows.delete(name);
         });
 
-        searchWindow.loadURL(`file://${__dirname}/search.html`);
-    })
-}
-
-
-async function togglePlaylistWindow() {
-    if (windows.has('playlistWindow')) {
-        let playlistWindow = windows.get('playlistWindow');
-        playlistWindow.close();
-    } else {
-        let playlistWindow = await createPlaylistWindow();
-        playlistWindow.show();
-    }
-}
-
-function createPlaylistWindow() {
-    return new Promise(resolve => {
-        let pos = windows.get('mainWindow').getPosition();
-
-        let playlistWindow = new BrowserWindow({
-            show: false,
-            width: 400,
-            x: pos[0] + 340,
-            y: pos[1] - 25,
-            resizable: false
-        });
-
-        playlistWindow.once('ready-to-show', () => {
-            // playlistWindow.setMenu(null);
-            windows.set('playlistWindow', playlistWindow);
-            resolve(playlistWindow);
-        });
-
-        playlistWindow.on('closed', () => {
-            windows.delete('playlistWindow');
-        });
-
-        playlistWindow.loadURL(`file://${__dirname}/playlist.html`);
+        window.loadURL(`file://${__dirname}/views/${name}.html`);
     })
 }

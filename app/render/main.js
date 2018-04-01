@@ -16,12 +16,9 @@ const player = window.myPlayer = new Player();
 const searchIcon = $('.icon.search');
 const playlistIcon = $('.icon.playlist');
 
-searchIcon.on('click', () => {
-    ipcRenderer.send('toggleSearchWindow');
-})
-
-playlistIcon.on('click', () => {
-    ipcRenderer.send('togglePlaylistWindow');
+$('.operations > .icon').on('click', function () {
+    let target = $(this).data('target');
+    ipcRenderer.send('toggleWindow', target);
 })
 
 ipcRenderer.on('setTracks', (evt, tracks) => {

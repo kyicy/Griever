@@ -1,0 +1,5 @@
+- [ ] create playlist
+- [ ] remember play mode
+- [ ] remember volume
+- [ ] auto scroll to current playing
+- [ ] fetch more when scrolling to bottom of search page
