@@ -6,7 +6,6 @@ const {
 const models = require('./model');
 const songHelper = require('./helper/song');
 
-
 const $ = require('jquery-slim');
 
 const playlistNode = $('#playlist');

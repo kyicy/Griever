@@ -57,7 +57,7 @@ app.on('ready', () => {
     });
 
     mainWindow.once('ready-to-show', async () => {
-        // mainWindow.setMenu(null);
+        mainWindow.setMenu(null);
         mainWindow.show();
         windows.set('main', mainWindow);
 
@@ -92,9 +92,9 @@ function createWindow(name) {
             y: pos[1] - 25,
             resizable: false
         });
-
+        
         window.once('ready-to-show', () => {
-            // window.setMenu(null);
+            window.setMenu(null);
             windows.set(name, window);
             resolve(window);
         });

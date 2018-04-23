@@ -5,7 +5,7 @@
   "main": "app/index.js",
   "scripts": {
     "start": "electron .",
-    "postinstall": "npm  run electron-rebuild",
+    "postinstall": "npm run electron-rebuild",
     "dist": "electron-packager . 'Griever' --out='dist' --overwrite",
     "deb64": "electron-installer-debian --arch amd64 --config config.json",
     "test": "npm test",
@@ -25,6 +25,7 @@
     "datauri": "^1.1.0",
     "jquery-slim": "^3.0.0",
     "lodash": "^4.17.5",
+    "netease-cloud-music-anonymous-api": "github:kyicy/netease-cloud-music-anonymous-api",
     "request": "^2.85.0",
     "sequelize": "^4.37.0",
     "sqlite3": "^3.1.13",

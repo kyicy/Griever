@@ -32,13 +32,15 @@ let songs = [];
 
 async function doneTyping() {
     try {
-        songs = await netease.search(this.value);
+        let term = this.value;
+        if (term.length === 0) return;
+
+        songs = await netease.search(term);
         $neteaseSearchResult.empty();
         songs.forEach(async song => {
             let element = $(`<li class="songListItem">
-                <img data-src=${song.album.picUrl} class="cover"/>
                 <span>${song.name} by ${song.artist.name}</span>
-                <i class="icon play material-icons" data-neteaseid="${song.neteaseId}">play_circle_outline</i>            
+                <i class="icon play material-icons" data-neteaseid="${song.id}">play_circle_outline</i>            
             </li>`);
             $neteaseSearchResult.append(element);
             myLazyLoad.update();
@@ -53,7 +55,7 @@ async function doneTyping() {
 
 $('#index ul').on('click', 'i.play', async function () {
     let neteaseId = parseInt($(this).data('neteaseid'));
-    let song = songs.find(song => song.neteaseId === neteaseId);
+    let song = songs.find(song => song.id === neteaseId);
 
     let _song = await models.Song.findOne({
         where: {
@@ -84,9 +86,10 @@ $('#index ul').on('click', 'i.play', async function () {
     })
 
     if (!_album) {
+        let songDetail = await netease.getDetail(neteaseId);
         _album = await models.Album.create({
             neteaseId: song.album.id,
-            cover: song.album.picUrl,
+            cover: songDetail.cover,
             title: song.album.name,
             artistId: _artist.id
         })
@@ -105,13 +108,13 @@ $('#index ul').on('click', 'i.play', async function () {
 
     if (!_song) {
         _song = await models.Song.build({
-            neteaseId: song.neteaseId,
+            neteaseId: song.id,
             albumId: _album.id,
             artistId: _artist.id,
             title: song.name
         })
-        _song.lrc = await song.getLrc();
-        let track = await song.getTrack();
+        _song.lrc = await netease.getLrc(song.id);
+        let track = await netease.getTrack(song.id);
         if (!(track)) {
             return new Notification('play failed', {
                 body: `${_song.title} can not be played`
