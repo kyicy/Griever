@@ -15,9 +15,9 @@
   "author": "kyicy",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^1.8.3",
+    "electron": "^2.0.8",
     "electron-installer-debian": "^0.8.1",
-    "electron-packager": "^11.1.0",
+    "electron-packager": "^12.1.1",
     "electron-rebuild": "^1.7.3"
   },
   "dependencies": {
@@ -26,8 +26,8 @@
     "lodash": "^4.17.5",
     "request": "^2.85.0",
     "sequelize": "^4.37.0",
-    "sqlite3": "^3.1.13",
+    "sqlite3": "^4.0.2",
     "umzug": "^2.1.0",
-    "vanilla-lazyload": "^10.4.2"
+    "vanilla-lazyload": "^10.16.0-beta"
   }
 }
